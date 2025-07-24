@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint';
 export default [
     ...tseslint.configs.recommended,
     {
-        ignores: ['dist/', 'node_modules/', 'build/'],
+        ignores: ['src/components/ui','dist/', 'node_modules/', 'build/'],
         files: ['**/*.ts', '**/*.tsx'],
         plugins: {
             react: eslintPluginReact,

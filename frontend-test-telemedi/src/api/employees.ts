@@ -1,46 +1,20 @@
-import { IEmployees } from '../types';
+import {IEmployees} from '../types';
+import axios from "axios";
+import {IPagination, IPaginationWrapper} from "../types/paginations";
 
-export const getEmployees = async (): Promise<IEmployees[] | undefined> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          id: 1,
-          name: 'Test Object',
-          surname: 'Test Object',
-          department: 'sales',
-          performance: 1.15,
-        },
-        {
-          id: 2,
-          name: 'Test Object',
-          surname: 'Test Object',
-          department: 'sales',
-          performance: 1.15,
-        },
-        {
-          id: 3,
-          name: 'Test Object',
-          surname: 'Test Object',
-          department: 'sales',
-          performance: 1.15,
-        },
-      ]);
-    }, 10); // 10 ms delay
-  });
+const API_URL="http://localhost:8080/api/"
+
+const paginationParse=(pagination?: IPagination) => `?page=${pagination?.page || 1}&limit=${pagination?.limit}`
+
+export const getEmployees = async (pagination?: IPagination) => {
+    return axios
+        .get(`${API_URL}employees${paginationParse(pagination)}`)
+        .then(
+            response => (response.data as unknown as IPaginationWrapper<IEmployees[]>)
+        )
+        .catch((err: unknown) => {
+            console.error(err);
+            return
+        });
 };
 
-// return axios
-//   .post(`${API_URL}${INQUIRY_LOADS}`, data)
-//   .then(
-//     (response: AxiosResponse<{data: {id: number}}>): {data: {id: number}} => {
-//       if (response.status > 299) {
-//         throw new Error('Error editing user');
-//       }
-//
-//       return response.data;
-//     },
-//   )
-//   .catch((err: unknown) => {
-//     console.error(err);
-//   });

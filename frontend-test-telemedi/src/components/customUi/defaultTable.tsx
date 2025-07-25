@@ -6,7 +6,7 @@ export type TableProps<T> = {
   data?: T[];
   pagination?: {
     page: number;
-    pageSize: number;
+    limit: number;
     total: number;
     onPageChange: (page: number) => void;
   };
@@ -18,7 +18,7 @@ const DataTable = <T extends Record<string, unknown>>({
   pagination,
 }: TableProps<T>) => {
   const totalPages = pagination
-    ? Math.ceil(pagination.total / pagination.pageSize)
+    ? Math.ceil(pagination.total / pagination.limit)
     : 1;
 
   return (
